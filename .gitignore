@@ -55,3 +55,14 @@ freeline.py
 freeline/
 freeline_project_description.json
 app/libs/
+.idea/
+gradle.properties
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+.idea/compiler.xml
+.idea/copyright/
+.idea/misc.xml
+.idea/modules.xml
+.idea/runConfigurations.xml

@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
 
+    // The Keys
     private String TITLE = "Title";
     private String CONTENT = "Content";
     private String SUBTEXT = "SubText";
@@ -28,25 +29,33 @@ public class MainActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, NotificationService.class);
         startService(serviceIntent);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
+        // Get the Database
+        FirebaseDatabase database = FirebaseHelper.getDatabase();
+        // Get the Notification Reference
         final DatabaseReference notificationRef = database.getReference("notification");
+        // Keep the Database sync in case of loosing connexion
         notificationRef.keepSynced(true);
 
+        // Send Notification on Send Click
         Button buttonSend = (Button) findViewById(R.id.buttonSend);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Get Edit Text
                 EditText editTextTitle = findViewById(R.id.editTextTitle);
                 EditText editTextContent = findViewById(R.id.editTextContent);
                 EditText editTextSubText = findViewById(R.id.editTextSubText);
+
+                // Get Text
                 String title = editTextTitle.getText().toString();
                 String content = editTextContent.getText().toString();
                 String subtext = editTextSubText.getText().toString();
+                // Store in a map
                 HashMap<String, String> notification = new HashMap<String, String>();
                 notification.put(TITLE, title);
                 notification.put(CONTENT, content);
                 notification.put(SUBTEXT, subtext);
+                // Send the map
                 notificationRef.setValue(notification);
             }
         });

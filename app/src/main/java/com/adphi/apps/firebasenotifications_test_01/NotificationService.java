@@ -38,16 +38,21 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        database = FirebaseDatabase.getInstance();
+        // Get the Database
+        database = FirebaseHelper.getDatabase();
+        // get the Notification Reference
         notificationRef = database.getReference("notification");
 
+        // Set listener on the Reference
         notificationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get the text
                 String title = dataSnapshot.child(TITLE).getValue(String.class);
                 String content = dataSnapshot.child(CONTENT).getValue(String.class);
                 String subtext = dataSnapshot.child(SUBTEXT).getValue(String.class);
 
+                // Send the Notification
                 sendNotification(title, content, subtext);
             }
 
